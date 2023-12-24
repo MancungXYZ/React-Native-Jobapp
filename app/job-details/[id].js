@@ -2,7 +2,7 @@ import {Text, View, SafeAreaView, ScrollView, ActivityIndicator, RefreshControl}
 import { useRouter, Stack, useSearchParams } from 'expo-router'
 
 import { useCallback, useState } from 'react'
-import {Company, JobAbout, JobFooter, JobTabs, ScreenHeaderBtn} from '../../components'
+import {Company, JobAbout, JobFooter, JobTabs, ScreenHeaderBtn, Specifics} from '../../components'
 import useFetch from '../../hook/useFetch'
 import {COLORS, icons, SIZES} from '../../constants'
 
@@ -18,6 +18,25 @@ function JobDetails() {
 
   const [refreshing, setRefreshing] = useState(false)
   const [activeTab, setActiveTab] = useState(tabs[0])
+
+  const displayTabContent = () => {
+    switch (activeTab) {
+      case "Qualifications":
+        return <Specifics 
+          title={"Qualification"}
+          points={data[0].job_highlights?.Qualifications ?? ['N/A']}
+        />
+      case "About":
+        return <JobAbout 
+          info={data[0].job_description ?? "No data provided"}
+        />
+      case "Responsibility":
+        return <Specifics 
+        title={"Responsibility"}
+        points={data[0].job_highlights?.Responsibilities ?? ['N/A']}
+      />
+    }
+  }
 
   const onRefresh = () => {}
   return (
@@ -64,10 +83,14 @@ function JobDetails() {
                   activeTab={activeTab}
                   setActiveTab={setActiveTab}
                 />
+
+                {displayTabContent()}
             </View>
           )
           }
         </ScrollView>
+
+        <JobFooter url={data[0]?.job_google_link ?? 'https://careers/google.com/jobs/result'}/>
       </>
     </SafeAreaView>
   )
