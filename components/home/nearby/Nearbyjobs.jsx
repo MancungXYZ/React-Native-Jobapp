@@ -14,6 +14,13 @@ const Nearbyjobs = () => {
     page: 1
   })
 
+  const [selectedJob, setSelectedJob] = useState();
+
+  const handleNavigate = (job) => {
+    router.push(`/job-details/${job.job_id}`);
+    setSelectedJob(job.job_id);
+  };
+
   const router = useRouter()
   return (
     <View style={styles.container}>
@@ -33,8 +40,9 @@ const Nearbyjobs = () => {
           data?.map((job) => (
             <NearbyJobCard 
               job={job}
+              selectedJob={selectedJob}
               key={`nearby-job-${job?.job_id}`}
-              handleNavigate = {() => router.push(`/job-details/${job.job_id}`)}
+              handleNavigate = {handleNavigate}
             />
           ))
         )}

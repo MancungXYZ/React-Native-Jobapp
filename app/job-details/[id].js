@@ -45,7 +45,7 @@ function JobDetails() {
         options={{
           headerStyle: {backgroundColor: COLORS.lightWhite},
           headerShadowVisible: false,
-          headerBackVisible: false,
+          // headerBackVisible: false,
           headerLeft: () => {
             <ScreenHeaderBtn 
               iconUrl={icons.left}
